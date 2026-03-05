@@ -1,31 +1,70 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Transfer Funds</title>
-    <link rel="stylesheet" href="style.css">
-</head>
-<body>
-    <header>
-        <h1 style="color:#133C55;">SafePay</h1>
-    <nav >
-        <a href="home.html"><b>Home</b></a> 
-        <a href="about.html"><b>About</b></a> 
-        <a href="profile.html"><b>profile</b></a>
-        <a href="contact.html"><b>Contacts</b></a>
-        <a href="login.html" style="margin-left:  1400px; "><b>LogOut</b></a>
-    </nav>
-    </header>
-    <form action="otp.html" align = center>
-        <h1>Transfer Funds</h1>
-        <br><input type="text" placeholder=" Your Account number"><br><br>
-        <br><input type="text" placeholder="Recivers Account number"><br><br>
-        <input type="text" placeholder="Enter Ammount"><br><br>
-        <input type="password" placeholder="Enter pin"><br><br>
-        <input type="submit" value="submit"><br>
-    </form>
+<meta charset="UTF-8">
+<title>Transfer Funds</title>
 
-    
+<link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/css/bootstrap.min.css" rel="stylesheet">
+<link rel="stylesheet" href="style.css">
+</head>
+
+<body>
+
+<header>
+  <h1>SafePay</h1>
+  <nav>
+    <a href="home.html">Home</a>
+    <a href="about.html">About</a>
+    <a href="profile.html">Profile</a>
+    <a href="contact.html">Contacts</a>
+    <a href="login.html" style="float:right;">Logout</a>
+  </nav>
+</header>
+
+<form class="text-center p-4">
+  <h2>Transfer Funds</h2>
+
+  <input type="text" id="accno" placeholder="Your Account Number"><br><br>
+  <input type="text" id="raccno" placeholder="Receiver Account Number"><br><br>
+  <input type="number" id="amount" placeholder="Amount"><br><br>
+  <input type="password" id="pin" placeholder="PIN"><br><br>
+
+  <button type="button" onclick="transfer()">Send</button>
+</form>
+
+<script>
+function transfer() {
+
+  const acc = accno.value.trim();
+  const racc = raccno.value.trim();
+  const amt = Number(amount.value);
+  const pinVal = pin.value;
+
+  if (!acc || !racc || amt <= 0 || !pinVal) {
+    alert("Fill all fields correctly");
+    return;
+  }
+
+  if (pinVal !== "123456") {
+    alert("Wrong PIN");
+    return;
+  }
+
+  let transactions = JSON.parse(localStorage.getItem("transactions")) || [];
+
+  transactions.push({
+    id: "TXN" + Date.now(),
+    date: new Date().toLocaleDateString(),
+    to: racc,
+    amount: amt,
+    status: "Success"
+  });
+
+  localStorage.setItem("transactions", JSON.stringify(transactions));
+  window.location.href = "history.html";
+}
+</script>
+
 </body>
 </html>
+
