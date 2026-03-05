@@ -2,15 +2,16 @@
 <html lang="en">
 <head>
     <meta charset="UTF-8">
-    <title>Transaction History</title>
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>history</title>
     <link rel="stylesheet" href="style.css">
 </head>
 <body>
-
     <header>
         <h1 style="color:#133C55;">SafePay</h1>
+
     <nav >
-         <a href="home.html"><b>Home</b></a> 
+        <a href="home.html"><b>Home</b></a> 
         <a href="about.html"><b>About</b></a> 
         <a href="profile.html"><b>profile</b></a>
         <a href="contact.html"><b>Contacts</b></a>
@@ -18,51 +19,40 @@
     </nav>
     </header>
 
-    <h2>Transaction History</h2>
+<h2 class="text-center mt-4">Transaction History</h2>
 
-    <table border="1" cellpadding="10" cellspacing="0">
-        <tr>
-            <th>Transaction ID</th>
-            <th>Date</th>
-            <th>Transfered to</th>
-            <th>Amount (₹)</th>
-            <th>Status</th>
-        </tr>
+<table>
+  <tr>
+    <th>Transaction ID</th>
+    <th>Date</th>
+    <th>Transferred To</th>
+    <th>Amount (₹)</th>
+    <th>Status</th>
+  </tr>
+  <tbody id="historyBody"></tbody>
+</table>
 
-        <tr>
-            <td>TXN1001</td>
-            <td>10-12-2025</td>
-            <td>Rahul</td>
-            <td>5,000</td>
-            <td style="color: green;">Success</td>
-        </tr>
+<script>
+const data = JSON.parse(localStorage.getItem("transactions")) || [];
+const body = document.getElementById("historyBody");
 
-        <tr>
-            <td>TXN1002</td>
-            <td>12-12-2025</td>
-            <td>Ramesh</td>
-            <td>49999</td>
-            <td style="color: green;">Success</td>
-        </tr>
+if (data.length === 0) {
+  body.innerHTML = "<tr><td colspan='5'>No Transactions</td></tr>";
+}
 
-        <tr>
-            <td>TXN1003</td>
-            <td>14-12-2025</td>
-            <td>Ravi</td>
-            <td>12000</td>
-            <td style="color: red;">failed</td>
-        </tr>
-
-        <tr>
-            <td>TXN1004</td>
-            <td>16-12-2025</td>
-            <td> Suresh</td>
-            <td>3,000</td>
-            <td style="color: green;">Success</td>
-        </tr>
-
-    </table>
-    
+data.forEach(t => {
+  body.innerHTML += `
+    <tr>
+      <td>${t.id}</td>
+      <td>${t.date}</td>
+      <td>${t.to}</td>
+      <td>${t.amount}</td>
+      <td style="color:${t.status === 'Success' ? 'green' : 'red'}">
+        ${t.status}
+      </td>
+    </tr>`;
+});
+</script>
 
 </body>
 </html>
